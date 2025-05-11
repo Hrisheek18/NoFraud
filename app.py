@@ -8,6 +8,8 @@ with open("scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 with open("category_le.pkl", "rb") as f:
     category_le = pickle.load(f)
+with open("state_le.pkl", "rb") as f:
+    state_le = pickle.load(f)
 
 app = Flask(__name__)
 
@@ -27,6 +29,7 @@ def predict():
         input_data.append(data[feat])
 
     input_data[0] = category_le.transform([input_data[0]])[0]
+    input_data[3] = state_le.transform([input_data[3]])[0]  # Encode state
 
     num_indices = [1, 4, 5, 6, 7, 8, 9, 10]
     input_arr = np.array(input_data, dtype=float).reshape(1, -1)
